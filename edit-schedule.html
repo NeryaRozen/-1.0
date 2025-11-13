@@ -1,0 +1,694 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>עריכת לוח הזמנים - טיול פראג</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        direction: rtl;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        color: #fff;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .back-btn {
+        display: inline-block;
+        padding: 12px 25px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #667eea;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .editor-section {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 25px;
+        margin-bottom: 25px;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .editor-section h2 {
+        color: #2c3e50;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        color: #2c3e50;
+        font-weight: bold;
+        margin-bottom: 8px;
+        font-size: 1.1em;
+      }
+
+      .form-group select,
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1em;
+        transition: border-color 0.3s ease;
+        direction: rtl;
+      }
+
+      .form-group select:focus,
+      .form-group input:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+
+      .attractions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+      }
+
+      .attraction-card {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 12px;
+        border-right: 4px solid #667eea;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .attraction-card:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        background: #e8f4f8;
+      }
+
+      .attraction-card.selected {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border-right-color: #fff;
+      }
+
+      .attraction-card h3 {
+        font-size: 1.1em;
+        margin-bottom: 8px;
+      }
+
+      .attraction-card p {
+        font-size: 0.9em;
+        opacity: 0.9;
+      }
+
+      .add-btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.2em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        margin-top: 20px;
+      }
+
+      .add-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      }
+
+      .add-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .schedule-preview {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        margin-top: 25px;
+      }
+
+      .schedule-preview h2 {
+        color: #2c3e50;
+        font-size: 1.5em;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+      }
+
+      .day-section {
+        background: #f8f9fa;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        border-right: 4px solid #667eea;
+      }
+
+      .day-section h3 {
+        color: #2c3e50;
+        margin-bottom: 15px;
+        font-size: 1.2em;
+      }
+
+      .schedule-item {
+        background: white;
+        padding: 12px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      }
+
+      .schedule-item .time {
+        display: inline-block;
+        font-weight: bold;
+        color: #fff;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        margin-left: 10px;
+      }
+
+      .schedule-item .name {
+        flex: 1;
+        color: #2c3e50;
+        font-weight: 500;
+      }
+
+      .delete-btn {
+        background: #ff3b30;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 15px;
+        cursor: pointer;
+        font-size: 0.85em;
+        transition: all 0.3s ease;
+      }
+
+      .delete-btn:hover {
+        background: #d32f2f;
+        transform: scale(1.05);
+      }
+
+      .save-all-btn {
+        width: 100%;
+        padding: 18px;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        border: none;
+        border-radius: 25px;
+        font-size: 1.3em;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+        margin-top: 20px;
+      }
+
+      .save-all-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.5);
+      }
+
+      .message {
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .message.success {
+        background: #d4edda;
+        color: #155724;
+        border: 2px solid #c3e6cb;
+      }
+
+      .message.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 2px solid #f5c6cb;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 10px;
+        }
+
+        h1 {
+          font-size: 1.5em;
+        }
+
+        .editor-section {
+          padding: 20px;
+        }
+
+        .attractions-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="prague-trip.html" class="back-btn">← חזרה לדף הראשי</a>
+
+      <h1>✏️ עריכת לוח הזמנים</h1>
+
+      <div id="message-container"></div>
+
+      <div class="editor-section">
+        <h2>הוסף אטרקציה ללוח הזמנים</h2>
+
+        <div class="form-group">
+          <label>בחר יום:</label>
+          <select id="day-select">
+            <option value="1">יום ראשון - 23.11 (נחיתה וסיור ראשוני)</option>
+            <option value="2">יום שני - 24.11 (טבע ושווקים)</option>
+            <option value="3">יום שלישי - 25.11 (תרבות ורובע יהודי)</option>
+            <option value="4">יום רביעי - 26.11 (פראג אלטרנטיבית)</option>
+            <option value="5">יום חמישי - 27.11 (חזרה)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>שעה:</label>
+          <input type="time" id="time-input" value="10:00" />
+        </div>
+
+        <div class="form-group">
+          <label>בחר אטרקציה:</label>
+          <div class="attractions-grid" id="attractions-grid">
+            <!-- האטרקציות ייטענו כאן -->
+          </div>
+        </div>
+
+        <button class="add-btn" id="add-btn" onclick="addToSchedule()" disabled>
+          ➕ הוסף לתוכנית
+        </button>
+      </div>
+
+      <div class="schedule-preview">
+        <h2>📅 תצוגה מקדימה של הלוח</h2>
+        <div id="schedule-container">
+          <!-- הלוח המעודכן יוצג כאן -->
+        </div>
+
+        <button class="save-all-btn" onclick="saveSchedule()">
+          💾 שמור שינויים
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // רשימת האטרקציות
+      const attractions = {
+        restaurants: [
+          {
+            id: "golem",
+            name: "Golem Restaurant",
+            type: "מסעדה כשרה",
+            icon: "🍽️",
+          },
+          {
+            id: "king-david",
+            name: "King David",
+            type: "מסעדה כשרה",
+            icon: "🍽️",
+          },
+          { id: "chabad", name: 'חב"ד', type: "מסעדה כשרה", icon: "🍽️" },
+          {
+            id: "chabad-grill",
+            name: 'הגריל של חב"ד',
+            type: "מסעדה כשרה",
+            icon: "🍖",
+          },
+          { id: "trdelnik", name: "קיורטוש טעים", type: "קינוח", icon: "🥨" },
+        ],
+        sites: [
+          { id: "old-town", name: "הכיכר העתיקה", type: "אטרקציה", icon: "🏛️" },
+          {
+            id: "charles-bridge",
+            name: "גשר קרל",
+            type: "אטרקציה",
+            icon: "🌉",
+          },
+          {
+            id: "castle",
+            name: "טירת פראג (Prague Castle)",
+            type: "אטרקציה",
+            icon: "🏰",
+          },
+          {
+            id: "synagogue",
+            name: 'בית הכנסת של המהר"ל',
+            type: "אטרקציה",
+            icon: "🕍",
+          },
+          {
+            id: "jewish-quarter",
+            name: "הרובע היהודי",
+            type: "אטרקציה",
+            icon: "🏛️",
+          },
+          { id: "petrin", name: "Petřín Hill", type: "פארק", icon: "🗼" },
+          { id: "vysehrad", name: "Vyšehrad", type: "מבצר", icon: "🏰" },
+          {
+            id: "hanavsky",
+            name: "Hanavský Pavilion",
+            type: "נוף",
+            icon: "🌳",
+          },
+          {
+            id: "john-lennon",
+            name: "חומת ג'ון לנון",
+            type: "אומנות",
+            icon: "🎨",
+          },
+          {
+            id: "national-museum",
+            name: "המוזיאון הלאומי",
+            type: "מוזיאון",
+            icon: "🏛️",
+          },
+          {
+            id: "narrow-alley",
+            name: "הרחוב הצר של פראג",
+            type: "אטרקציה",
+            icon: "🚶",
+          },
+          {
+            id: "boat-rentals",
+            name: "השכרת סירות פדלים",
+            type: "פעילות",
+            icon: "🚣",
+          },
+          {
+            id: "trojsky-zamek",
+            name: "Trojský zámek",
+            type: "טירה",
+            icon: "🏰",
+          },
+          {
+            id: "lady-exile",
+            name: "Our Lady of Exile",
+            type: "כנסייה",
+            icon: "⛪",
+          },
+          {
+            id: "jan-sturza",
+            name: "Jan Sturza: Day and Night Bars",
+            type: "בר",
+            icon: "🍺",
+          },
+          { id: "novy-svet", name: "Nový Svět", type: "שכונה", icon: "🏘️" },
+          {
+            id: "kralovska",
+            name: "Královská zahrada",
+            type: "גן",
+            icon: "🌺",
+          },
+        ],
+        shopping: [
+          { id: "primark", name: "Primark Prague", type: "קניות", icon: "🛍️" },
+          { id: "palladium", name: "Palladium", type: "קניון", icon: "🏬" },
+          { id: "chodov", name: "Westfield Chodov", type: "קניון", icon: "🏬" },
+          {
+            id: "my-narodni",
+            name: "My Národní Mall",
+            type: "קניון",
+            icon: "🏬",
+          },
+          { id: "havelske", name: "שוק Havelské", type: "שוק", icon: "🛒" },
+          { id: "jiriho", name: "שוק Jiřího", type: "שוק", icon: "🛒" },
+          { id: "tylovo", name: "שוק Tylovo", type: "שוק", icon: "🛒" },
+        ],
+        parks: [
+          { id: "graborovka", name: "פארק גרברובקה", type: "פארק", icon: "🌳" },
+        ],
+      };
+
+      let selectedAttraction = null;
+      let schedule = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+      };
+
+      // טעינת לוח זמנים שמור
+      function loadSchedule() {
+        const saved = localStorage.getItem("pragueSchedule");
+        if (saved) {
+          schedule = JSON.parse(saved);
+        }
+        displaySchedule();
+      }
+
+      // טעינת האטרקציות
+      function loadAttractions() {
+        const grid = document.getElementById("attractions-grid");
+        grid.innerHTML = "";
+
+        // כל הקטגוריות
+        Object.keys(attractions).forEach((category) => {
+          attractions[category].forEach((attraction) => {
+            const card = document.createElement("div");
+            card.className = "attraction-card";
+            card.onclick = () => selectAttraction(attraction, card);
+            card.innerHTML = `
+            <h3>${attraction.icon} ${attraction.name}</h3>
+            <p>${attraction.type}</p>
+          `;
+            grid.appendChild(card);
+          });
+        });
+      }
+
+      // בחירת אטרקציה
+      function selectAttraction(attraction, cardElement) {
+        // הסרת בחירה קודמת
+        document.querySelectorAll(".attraction-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+
+        // בחירה חדשה
+        cardElement.classList.add("selected");
+        selectedAttraction = attraction;
+        document.getElementById("add-btn").disabled = false;
+      }
+
+      // מיפוי שמות לחיפוש בגוגל מפות
+      const locationMap = {
+        golem: "Golem Kosher Restaurant Prague",
+        "king-david": "King David Kosher Restaurant Prague",
+        chabad: "Chabad Prague",
+        "chabad-grill": "Chabad Grill Prague",
+        trdelnik: "Trdelnik Coffee Prague",
+        "old-town": "Old Town Square Prague",
+        "charles-bridge": "Charles Bridge Prague",
+        castle: "Prague Castle",
+        synagogue: "Old New Synagogue Prague",
+        "jewish-quarter": "Jewish Quarter Prague",
+        petrin: "Petrin Hill Prague",
+        vysehrad: "Vyšehrad Prague",
+        hanavsky: "Hanavsky Pavilion Prague",
+        "john-lennon": "John Lennon Wall Prague",
+        "national-museum": "National Museum Prague",
+        "narrow-alley": "Prague Narrowest Street Vinarna Certovka",
+        "boat-rentals": "Boat Rentals Vltava River Prague",
+        "trojsky-zamek": "Trojský zámek Prague",
+        "lady-exile": "Church of Our Lady Victorious Prague",
+        "jan-sturza": "Stursa Monument Prague",
+        "novy-svet": "Nový Svět Prague",
+        kralovska: "Royal Garden Prague Castle",
+        primark: "Primark Prague",
+        palladium: "Palladium Prague",
+        chodov: "Westfield Chodov Prague",
+        "my-narodni": "My Národní Prague",
+        havelske: "Havelské tržiště Prague",
+        jiriho: "Jiřího z Poděbrad Market Prague",
+        tylovo: "Tylovo náměstí Market Prague",
+        graborovka: "Havlíčkovy sady Prague",
+      };
+
+      // הוספה ללוח הזמנים
+      function addToSchedule() {
+        if (!selectedAttraction) return;
+
+        const day = document.getElementById("day-select").value;
+        const time = document.getElementById("time-input").value;
+
+        const newItem = {
+          id: Date.now(),
+          attraction: selectedAttraction,
+          time: time,
+        };
+
+        schedule[day].push(newItem);
+
+        // מיון לפי שעה
+        schedule[day].sort((a, b) => a.time.localeCompare(b.time));
+
+        displaySchedule();
+        showMessage("האטרקציה נוספה בהצלחה! 🎉", "success");
+
+        // איפוס
+        selectedAttraction = null;
+        document.querySelectorAll(".attraction-card").forEach((card) => {
+          card.classList.remove("selected");
+        });
+        document.getElementById("add-btn").disabled = true;
+      }
+
+      // הצגת הלוח
+      function displaySchedule() {
+        const container = document.getElementById("schedule-container");
+        container.innerHTML = "";
+
+        const dayNames = {
+          1: "יום ראשון - 23.11 (נחיתה וסיור ראשוני)",
+          2: "יום שני - 24.11 (טבע ושווקים)",
+          3: "יום שלישי - 25.11 (תרבות ורובע יהודי)",
+          4: "יום רביעי - 26.11 (פראג אלטרנטיבית)",
+          5: "יום חמישי - 27.11 (חזרה)",
+        };
+
+        Object.keys(schedule).forEach((day) => {
+          if (schedule[day].length > 0) {
+            const daySection = document.createElement("div");
+            daySection.className = "day-section";
+
+            const title = document.createElement("h3");
+            title.textContent = dayNames[day];
+            daySection.appendChild(title);
+
+            schedule[day].forEach((item) => {
+              const itemDiv = document.createElement("div");
+              itemDiv.className = "schedule-item";
+
+              const locationKey =
+                locationMap[item.attraction.id] || item.attraction.name;
+              const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+                locationKey
+              )}`;
+              const moovitUrl = `https://moovit.com/prague-2657/poi/en?q=${encodeURIComponent(
+                locationKey
+              )}`;
+
+              itemDiv.innerHTML = `
+              <div style="flex: 1;">
+                <div class="name">
+                  ${item.attraction.icon} ${item.attraction.name}
+                </div>
+                <div style="margin-top: 8px;">
+                  <a href="${googleMapsUrl}" target="_blank" style="display: inline-block; padding: 5px 12px; background: #667eea; color: white; text-decoration: none; border-radius: 15px; font-size: 0.8em; margin-left: 5px;">📍 מפות</a>
+                  <a href="${moovitUrl}" target="_blank" style="display: inline-block; padding: 5px 12px; background: #764ba2; color: white; text-decoration: none; border-radius: 15px; font-size: 0.8em;">🚇 Moovit</a>
+                </div>
+              </div>
+              <span class="time">${item.time}</span>
+              <button class="delete-btn" onclick="deleteItem(${day}, ${item.id})">מחק</button>
+            `;
+              daySection.appendChild(itemDiv);
+            });
+
+            container.appendChild(daySection);
+          }
+        });
+
+        if (container.innerHTML === "") {
+          container.innerHTML =
+            '<p style="text-align: center; color: #999; padding: 40px;">עדיין לא הוספת אטרקציות ללוח הזמנים</p>';
+        }
+      }
+
+      // מחיקת פריט
+      function deleteItem(day, itemId) {
+        if (confirm("למחוק פריט זה מהלוח?")) {
+          schedule[day] = schedule[day].filter((item) => item.id !== itemId);
+          displaySchedule();
+          showMessage("הפריט נמחק", "success");
+        }
+      }
+
+      // שמירת הלוח
+      function saveSchedule() {
+        localStorage.setItem("pragueSchedule", JSON.stringify(schedule));
+        showMessage("הלוח נשמר בהצלחה! ✅", "success");
+
+        // חזרה לדף הראשי אחרי שנייה
+        setTimeout(() => {
+          window.location.href = "prague-trip.html";
+        }, 1500);
+      }
+
+      // הצגת הודעה
+      function showMessage(text, type) {
+        const container = document.getElementById("message-container");
+        const message = document.createElement("div");
+        message.className = `message ${type}`;
+        message.textContent = text;
+        container.innerHTML = "";
+        container.appendChild(message);
+
+        setTimeout(() => {
+          message.remove();
+        }, 3000);
+      }
+
+      // טעינה בהפעלת הדף
+      window.addEventListener("DOMContentLoaded", () => {
+        loadAttractions();
+        loadSchedule();
+      });
+    </script>
+  </body>
+</html>
+
+
+

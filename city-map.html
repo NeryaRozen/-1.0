@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="he">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>מפת פראג - נקודות עניין</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        direction: rtl;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        color: #fff;
+        text-align: center;
+        font-size: 2em;
+        margin-bottom: 30px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .back-btn {
+        display: inline-block;
+        padding: 12px 25px;
+        background: rgba(255, 255, 255, 0.95);
+        color: #667eea;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .back-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .category-section {
+        background: rgba(255, 255, 255, 0.98);
+        padding: 25px;
+        margin-bottom: 25px;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .category-section h2 {
+        color: #2c3e50;
+        font-size: 1.6em;
+        margin-bottom: 20px;
+        border-bottom: 3px solid #667eea;
+        padding-bottom: 10px;
+      }
+
+      .place-item {
+        background: #f8f9fa;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-radius: 12px;
+        border-right: 4px solid #667eea;
+        transition: all 0.3s ease;
+      }
+
+      .place-item:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .place-item h3 {
+        color: #2c3e50;
+        font-size: 1.3em;
+        margin-bottom: 10px;
+      }
+
+      .place-item p {
+        color: #555;
+        margin: 8px 0;
+        line-height: 1.6;
+      }
+
+      .nav-btn {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 25px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        font-size: 0.95em;
+      }
+
+      .nav-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+      }
+
+      @media (max-width: 600px) {
+        body {
+          padding: 10px;
+        }
+
+        h1 {
+          font-size: 1.5em;
+        }
+
+        .category-section {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <a href="prague-trip.html" class="back-btn">← חזרה לדף הראשי</a>
+
+      <h1>🗺️ מפת פראג - נקודות עניין</h1>
+
+      <div class="category-section">
+        <h2>🏰 אטרקציות מרכזיות</h2>
+
+        <div class="place-item">
+          <h3>הכיכר העתיקה (Old Town Square)</h3>
+          <p>💎 לב העיר העתיקה ומרכז ההמולה</p>
+          <p>⏰ השעון האסטרונומי המפורסם - מופע כל שעה</p>
+          <p>🏛️ בתים צבעוניים מרהיבים ואדריכלות גותית</p>
+          <p>📸 מקום מושלם לצילומים!</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Old+Town+Square+Prague"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+
+        <div class="place-item">
+          <h3>גשר קרל (Charles Bridge)</h3>
+          <p>🌉 גשר אבן היסטורי מהמאה ה-14</p>
+          <p>🗿 30 פסלים של קדושים לאורך הגשר</p>
+          <p>🌅 נוף מרהיב בזריחה ובשקיעה</p>
+          <p>💕 אחד המקומות הרומנטיים ביותר בעיר</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Charles+Bridge+Prague"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+
+        <div class="place-item">
+          <h3>טירת פראג (Prague Castle)</h3>
+          <p>🏰 הטירה הגדולה בעולם לפי גינס</p>
+          <p>⛪ כולל קתדרלה מרהיבה של סנט ויטוס</p>
+          <p>👑 מעון נשיא צ'כיה</p>
+          <p>🌄 נוף פנורמי מדהים על העיר</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Prague+Castle"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+
+        <div class="place-item">
+          <h3>חומת ג'ון לנון (John Lennon Wall)</h3>
+          <p>🎨 קיר גרפיטי צבעוני ומשתנה</p>
+          <p>✌️ סמל לשלום וחופש</p>
+          <p>📷 רקע מושלם לתמונות יצירתיות</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=John+Lennon+Wall+Prague"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+      </div>
+
+      <div class="category-section">
+        <h2>🏛️ רובע יהודי (Josefov)</h2>
+
+        <div class="place-item">
+          <h3>בית הכנסת הישן-החדש</h3>
+          <p>🕍 בית הכנסת הפעיל העתיק ביותר באירופה (1270)</p>
+          <p>📜 אגדת הגולם של המהר"ל</p>
+          <p>🎫 דורש כרטיס כניסה</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Old+New+Synagogue+Prague"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+
+        <div class="place-item">
+          <h3>המוזיאון היהודי</h3>
+          <p>🏛️ אוסף עשיר של יודאיקה והיסטוריה</p>
+          <p>📖 סיפור יהודי פראג לאורך הדורות</p>
+          <p>🎫 כרטיס משולב לכל בתי הכנסת</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Jewish+Museum+Prague"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+      </div>
+
+      <div class="category-section">
+        <h2>🌳 פארקים ונוף</h2>
+
+        <div class="place-item">
+          <h3>Petřín Hill</h3>
+          <p>🗼 מגדל תצפית (מיני מגדל אייפל)</p>
+          <p>🌺 גנים מטופחים ושבילי טיול</p>
+          <p>🚡 רכבל מהעיר למעלה</p>
+          <p>💑 מקום רומנטי במיוחד!</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Petrin+Hill+Prague"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+
+        <div class="place-item">
+          <h3>Vyšehrad</h3>
+          <p>🏰 מבצר עתיק עם נוף מרהיב</p>
+          <p>⛪ כנסייה גותית מרשימה</p>
+          <p>🌅 מקום שקט ופחות תיירותי</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Vyšehrad+Prague"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+      </div>
+
+      <div class="category-section">
+        <h2>🛍️ קניות</h2>
+
+        <div class="place-item">
+          <h3>Palladium</h3>
+          <p>🏬 קניון מודרני במרכז העיר</p>
+          <p>👕 מגוון רחב של מותגים בינלאומיים</p>
+          <p>🍽️ מתחם אוכל גדול</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Palladium+Prague"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+
+        <div class="place-item">
+          <h3>Westfield Chodov</h3>
+          <p>🏬 הקניון הגדול ביותר בפראג</p>
+          <p>🛒 מעל 200 חנויות</p>
+          <p>🎬 קולנוע וגם IKEA</p>
+          <a
+            href="https://www.google.com/maps/dir/?api=1&destination=Westfield+Chodov+Prague"
+            target="_blank"
+            class="nav-btn"
+            >📍 ניווט</a
+          >
+        </div>
+      </div>
+
+      <div class="category-section">
+        <h2>💡 טיפים לניווט</h2>
+        <div class="place-item">
+          <p>🚇 <strong>תחבורה ציבורית:</strong> המטרו והטראמים יעילים מאוד</p>
+          <p>🎫 <strong>כרטיסים:</strong> קנו כרטיס יומי - משתלם!</p>
+          <p>🚶 <strong>הליכה רגלית:</strong> המרכז קטן ונוח להליכה</p>
+          <p>📱 <strong>אפליקציות:</strong> Moovit או PID Lítačka לתחבורה</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

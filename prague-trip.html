@@ -1,0 +1,1061 @@
+﻿<!DOCTYPE html>
+<html lang="he">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>נריה וריבקי טסים לפראג</title>
+ <style>
+ * {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ }
+ 
+ body { 
+ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+ direction: rtl; 
+ background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+ padding: 10px;
+ min-height: 100vh;
+ }
+ 
+ .container {
+ max-width: 800px;
+ margin: 0 auto;
+ padding: 20px 10px;
+ }
+ 
+ h1 { 
+ color: #fff;
+ text-align: center;
+ font-size: 1.8em;
+ margin-bottom: 15px;
+ text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+ padding: 0 10px;
+ }
+ 
+ /* ספירה לאחור */
+ .countdown-container {
+ background: rgba(255,255,255,0.98);
+ padding: 20px;
+ margin-bottom: 25px;
+ border-radius: 16px;
+ box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+ text-align: center;
+ }
+ 
+ .countdown-title {
+ color: #2c3e50;
+ font-size: 1.3em;
+ margin-bottom: 15px;
+ font-weight: bold;
+ }
+ 
+ .countdown-display {
+ display: flex;
+ justify-content: center;
+ gap: 15px;
+ flex-wrap: wrap;
+ margin-top: 15px;
+ }
+ 
+ .countdown-item {
+ background: linear-gradient(135deg, #667eea, #764ba2);
+ color: white;
+ padding: 15px 20px;
+ border-radius: 12px;
+ min-width: 80px;
+ box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+ }
+ 
+ .countdown-number {
+ font-size: 2em;
+ font-weight: bold;
+ display: block;
+ line-height: 1;
+ }
+ 
+ .countdown-label {
+ font-size: 0.85em;
+ margin-top: 5px;
+ opacity: 0.9;
+ }
+ 
+ .countdown-message {
+ margin-top: 15px;
+ font-size: 1.1em;
+ color: #667eea;
+ font-weight: bold;
+ }
+ 
+ /* תפריט המבורגר */
+ .menu-container {
+ position: fixed;
+ top: 20px;
+ right: 20px;
+ z-index: 1000;
+ }
+ 
+ .hamburger-btn {
+ background: rgba(255,255,255,0.95);
+ border: none;
+ width: 50px;
+ height: 50px;
+ border-radius: 12px;
+ cursor: pointer;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ gap: 6px;
+ padding: 0;
+ box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+ transition: all 0.3s ease;
+ min-width: auto;
+ }
+ 
+ .hamburger-btn:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+ }
+ 
+ .hamburger-line {
+ width: 25px;
+ height: 3px;
+ background: linear-gradient(135deg, #667eea, #764ba2);
+ border-radius: 2px;
+ transition: all 0.3s ease;
+ }
+ 
+ .hamburger-btn.active .hamburger-line:nth-child(1) {
+ transform: rotate(45deg) translate(8px, 8px);
+ }
+ 
+ .hamburger-btn.active .hamburger-line:nth-child(2) {
+ opacity: 0;
+ }
+ 
+ .hamburger-btn.active .hamburger-line:nth-child(3) {
+ transform: rotate(-45deg) translate(8px, -8px);
+ }
+ 
+ .dropdown-menu {
+ position: absolute;
+ top: 60px;
+ right: 0;
+ background: rgba(255,255,255,0.98);
+ border-radius: 12px;
+ box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+ padding: 10px;
+ min-width: 200px;
+ opacity: 0;
+ visibility: hidden;
+ transform: translateY(-10px);
+ transition: all 0.3s ease;
+ }
+ 
+ .dropdown-menu.show {
+ opacity: 1;
+ visibility: visible;
+ transform: translateY(0);
+ }
+ 
+ .menu-item {
+ display: block;
+ width: 100%;
+ padding: 12px 15px;
+ margin: 5px 0;
+ background: linear-gradient(135deg, #667eea, #764ba2);
+ color: white;
+ border: none;
+ border-radius: 8px;
+ cursor: pointer;
+ font-weight: bold;
+ font-size: 0.95em;
+ text-align: right;
+ transition: all 0.3s ease;
+ text-decoration: none;
+ min-width: auto;
+ }
+ 
+ .menu-item:hover {
+ transform: translateX(-5px);
+ box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+ }
+ 
+ h2 { 
+ color: #2c3e50;
+ font-size: 1.3em;
+ margin-bottom: 15px;
+ padding-bottom: 10px;
+ border-bottom: 3px solid #667eea;
+ }
+ 
+ .day { 
+ background: rgba(255,255,255,0.98);
+ padding: 20px;
+ margin-bottom: 20px;
+ border-radius: 16px;
+ box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ 
+ .day:hover {
+ transform: translateY(-5px);
+ box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+ }
+ 
+ .day p {
+ margin-bottom: 15px;
+ padding: 12px;
+ background: #f8f9fa;
+ border-radius: 8px;
+ line-height: 1.6;
+ }
+ 
+ .day p:last-child {
+ margin-bottom: 0;
+ }
+ 
+ .time { 
+ display: inline-block;
+ font-weight: bold;
+ color: #fff;
+ background: linear-gradient(135deg, #667eea, #764ba2);
+ padding: 4px 12px;
+ border-radius: 20px;
+ font-size: 0.95em;
+ margin-left: 8px;
+ }
+ 
+ .buttons {
+ margin-top: 10px;
+ display: flex;
+ gap: 8px;
+ flex-wrap: wrap;
+ }
+ 
+ button { 
+ flex: 1;
+ min-width: 120px;
+ padding: 10px 15px;
+ background: linear-gradient(135deg, #667eea, #764ba2);
+ color: white;
+ border: none;
+ border-radius: 25px;
+ cursor: pointer;
+ font-weight: bold;
+ font-size: 0.9em;
+ transition: all 0.3s ease;
+ box-shadow: 0 4px 10px rgba(102, 126, 234, 0.3);
+ }
+ 
+ button:hover { 
+ transform: translateY(-2px);
+ box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+ }
+ 
+ button:active {
+ transform: translateY(0);
+ }
+ 
+ a { 
+ text-decoration: none;
+ }
+ 
+ /* גלריית תמונות */
+ .photo-gallery {
+ background: rgba(255,255,255,0.98);
+ padding: 20px;
+ margin-bottom: 25px;
+ border-radius: 16px;
+ box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+ }
+ 
+ .photo-gallery h2 {
+ text-align: center;
+ color: #2c3e50;
+ margin-bottom: 20px;
+ font-size: 1.4em;
+ border: none;
+ }
+ 
+ .gallery-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+ gap: 15px;
+ margin-top: 15px;
+ }
+ 
+ .gallery-item {
+ position: relative;
+ overflow: hidden;
+ border-radius: 12px;
+ box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+ aspect-ratio: 3/4;
+ cursor: pointer;
+ }
+ 
+ .gallery-item:hover {
+ transform: scale(1.05);
+ box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+ }
+ 
+ .gallery-item img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
+ }
+ 
+ .gallery-caption {
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+ color: white;
+ padding: 15px 10px 10px;
+ font-size: 0.9em;
+ text-align: center;
+ font-weight: bold;
+ }
+ 
+ .upload-section {
+ text-align: center;
+ margin-bottom: 20px;
+ padding: 20px;
+ background: #f8f9fa;
+ border-radius: 12px;
+ border: 2px dashed #667eea;
+ }
+ 
+ .upload-btn {
+ display: inline-block;
+ padding: 15px 30px;
+ background: linear-gradient(135deg, #667eea, #764ba2);
+ color: white;
+ border-radius: 25px;
+ cursor: pointer;
+ font-weight: bold;
+ font-size: 1.1em;
+ transition: all 0.3s ease;
+ box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+ }
+ 
+ .upload-btn:hover {
+ transform: translateY(-2px);
+ box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+ }
+ 
+ .upload-hint {
+ margin-top: 10px;
+ color: #666;
+ font-size: 0.9em;
+ }
+ 
+ .gallery-header {
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-bottom: 15px;
+ position: relative;
+ }
+ 
+ .toggle-gallery {
+ background: none;
+ border: none;
+ color: #667eea;
+ cursor: pointer;
+ font-size: 1em;
+ padding: 3px 2px;
+ transition: transform 0.3s ease;
+ min-width: auto;
+ transform: scaleX(0.3);
+ position: absolute;
+ left: 0;
+ }
+ 
+ .toggle-gallery:hover {
+ transform: scaleX(0.4);
+ }
+ 
+ .gallery-content {
+ transition: max-height 0.3s ease, opacity 0.3s ease;
+ overflow: hidden;
+ }
+ 
+ .gallery-content.collapsed {
+ max-height: 0;
+ opacity: 0;
+ }
+ 
+ .delete-photo {
+ position: absolute;
+ top: 10px;
+ right: 10px;
+ background: rgba(255, 59, 48, 0.9);
+ color: white;
+ border: none;
+ width: 30px;
+ height: 30px;
+ border-radius: 50%;
+ cursor: pointer;
+ font-size: 1.2em;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ opacity: 0;
+ transition: opacity 0.3s ease;
+ z-index: 10;
+ min-width: auto;
+ padding: 0;
+ }
+ 
+ .gallery-item:hover .delete-photo {
+ opacity: 1;
+ }
+ 
+ .delete-photo:hover {
+ background: rgba(255, 59, 48, 1);
+ transform: scale(1.1);
+ }
+ 
+ /* התאמה למסכים קטנים */
+ @media (max-width: 600px) {
+ body {
+ padding: 5px;
+ }
+ 
+ .container {
+ padding: 10px 5px;
+ }
+ 
+ h1 {
+ font-size: 1.5em;
+ margin-bottom: 10px;
+ }
+ 
+ h2 {
+ font-size: 1.15em;
+ }
+ 
+ .day {
+ padding: 15px;
+ margin-bottom: 15px;
+ }
+ 
+ .day p {
+ padding: 10px;
+ font-size: 0.95em;
+ }
+ 
+ .time {
+ font-size: 0.85em;
+ padding: 3px 10px;
+ }
+ 
+ button {
+ min-width: 100px;
+ padding: 8px 12px;
+ font-size: 0.85em;
+ }
+ 
+ .moovit-link {
+ padding: 12px;
+ margin-bottom: 15px;
+ }
+ 
+ .moovit-link a {
+ font-size: 1em;
+ }
+ 
+ .gallery-grid {
+ grid-template-columns: 1fr;
+ gap: 12px;
+ }
+ 
+ .photo-gallery {
+ padding: 15px;
+ }
+ 
+ .photo-gallery h2 {
+ font-size: 1.2em;
+ }
+ 
+ .countdown-item {
+ min-width: 65px;
+ padding: 10px 15px;
+ }
+ 
+ .countdown-number {
+ font-size: 1.5em;
+ }
+ 
+ .countdown-label {
+ font-size: 0.75em;
+ }
+ 
+ .countdown-container {
+ padding: 15px;
+ }
+ }
+ </style>
+</head>
+<body>
+
+<div class="menu-container">
+ <button class="hamburger-btn" onclick="toggleMenu()" id="hamburger">
+ <span class="hamburger-line"></span>
+ <span class="hamburger-line"></span>
+ <span class="hamburger-line"></span>
+ </button>
+ 
+ <div class="dropdown-menu" id="dropdown">
+ <a href="edit-schedule.html" class="menu-item">
+ ✏️ עריכת לוח הזמנים
+ </a>
+ <a href="kosher-restaurants.html" target="_blank" class="menu-item">
+ 🍽️ מסעדות כשרות
+ </a>
+ <a href="city-map.html" target="_blank" class="menu-item">
+ 🗺️ מפה של העיר
+ </a>
+ </div>
+</div>
+
+<div class="container">
+ <h1>נריה וריבקי טסים לפראג ✈️</h1>
+
+<div class="countdown-container">
+ <div class="countdown-title">⏰ הספירה לאחור מתחילה!</div>
+ <div class="countdown-display" id="countdown">
+ <div class="countdown-item">
+ <span class="countdown-number" id="seconds">0</span>
+ <span class="countdown-label">שניות</span>
+ </div>
+ <div class="countdown-item">
+ <span class="countdown-number" id="minutes">0</span>
+ <span class="countdown-label">דקות</span>
+ </div>
+ <div class="countdown-item">
+ <span class="countdown-number" id="hours">0</span>
+ <span class="countdown-label">שעות</span>
+ </div>
+ <div class="countdown-item">
+ <span class="countdown-number" id="days">0</span>
+ <span class="countdown-label">ימים</span>
+ </div>
+ </div>
+ <div class="countdown-message" id="countdown-message">עד שנוחתים בפראג! 🇨🇿</div>
+</div>
+
+<div class="photo-gallery">
+ <div class="gallery-header">
+ <h2>💕 חמודים שאנחנו</h2>
+ <button class="toggle-gallery" onclick="toggleGallery()" title="הצג/הסתר גלריה">
+ <span id="toggle-icon">▼</span>
+ </button>
+ </div>
+ 
+ <div class="gallery-content" id="gallery-content">
+ <div class="upload-section">
+ <label for="photo-upload" class="upload-btn">
+ 📸 הוסף תמונות מהטלפון
+ <input type="file" id="photo-upload" accept="image/*" multiple style="display: none;">
+ </label>
+ <p class="upload-hint">לחץ כאן להעלות תמונות מהגלריה או מהוואטסאפ</p>
+ </div>
+ 
+ <div class="gallery-grid" id="gallery-container">
+ <!-- התמונות יופיעו כאן אחרי העלאה -->
+ </div>
+ </div>
+</div>
+
+<div class="day">
+ <h2>✈️ יום ראשון: נחיתה, סיור ראשוני וקניות</h2>
+ <p><span class="time">09:40</span> נחיתה בפראג</p>
+ <p>
+ <span class="time">11:00</span> צ'ק-אין במלון Adria Hotel Prague
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)">📋 העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Adria Hotel Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Adria Hotel Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">12:30</span> קיורטוש טעים
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)">📋 העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Trdelnik Coffee Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Trdelnik Coffee Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">14:00</span> בית הכנסת של המהר"ל
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)">📋 העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Old New Synagogue Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Old New Synagogue Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">15:30</span> Hanavský Pavilion
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)">📋 העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Hanavsky Pavilion Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Hanavsky Pavilion Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">17:00</span> Primark Prague
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)">📋 העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Primark Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Primark Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">19:30</span> Golem Restaurant
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)">📋 העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Golem Kosher Restaurant Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Golem Kosher Restaurant Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+</div>
+
+<div class="day">
+ <h2>🌳 יום שני: טבע, שווקים וקניות</h2>
+ <p>
+ <span class="time">10:00</span> פארק גרברובקה – מטרו A לתחנת Náměstí Míru
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Havlíčkovy sady Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Havlíčkovy sady Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">12:30</span> שוק Jiřího z Poděbrad
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Jiřího z Poděbrad Market Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Jiřího z Poděbrad Market Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">14:30</span> My Národní Mall
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=My Národní Mall Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=My Národní Mall Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">19:00</span> Kosher Restaurant KING DAVID
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=King David Kosher Restaurant Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=King David Kosher Restaurant Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+</div>
+<div class="day">
+ <h2>🏛️ יום שלישי: תרבות ורובע יהודי</h2>
+ <p>
+ <span class="time">10:00</span> המוזיאון הלאומי
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=National Museum Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=National Museum Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">12:30</span> Havelské tržiště
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Havelské tržiště Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Havelské tržiště Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">14:30</span> הרובע היהודי
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Jewish Quarter Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Jewish Quarter Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">17:00</span> המסעדה שלנו - חב"ד
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Chabad Kosher Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Chabad Kosher Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">20:00</span> U-Milo Kosher Restaurant
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=U Milo Kosher Restaurant Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=U Milo Kosher Restaurant Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+</div>
+
+<div class="day">
+ <h2>🏰 יום רביעי: פראג האלטרנטיבית קניון חודוב</h2>
+ <p>
+ <span class="time">10:00</span> Vyšehrad – מטרו C לתחנת Vyšehrad
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Vyšehrad Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Vyšehrad Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">12:30</span> Tylovo náměstí Market
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Tylovo náměstí Market Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Tylovo náměstí Market Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">14:00</span> Westfield Chodov – מטרו C לתחנת Chodov
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Westfield Chodov Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Westfield Chodov Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+ <p>
+ <span class="time">20:00</span> הגריל של חב"ד
+ <div class="buttons">
+ <button onclick="copyToClipboard('', this)"> העתק</button>
+ <a href="https://www.google.com/maps/dir/?api=1&destination=Chabad Grill Prague" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="https://moovit.com/prague-2657/poi/en?q=Chabad Grill Prague" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ </p>
+</div>
+
+<div class="day">
+ <h2>✈️ יום חמישי: חזרה</h2>
+ <p>
+ <span class="time">06:45</span> יציאה מהמלון:<br>
+ מטרו A מתחנת Můstek לתחנת Nádraží Veleslavín<br>
+ קו 59 לשדה התעופה (כ-35 דקות)
+ </p>
+ <p><span class="time">08:00</span> הגעה לשדה, צ'ק-אין ובידוק</p>
+ <p><span class="time">08:40</span> זמן הגעה לשדה (לפחות שעתיים לפני)</p>
+ <p><span class="time">10:40</span> טיסה חזרה הביתה 🏠✈️</p>
+</div>
+
+</div>
+
+<script>
+// ספירה לאחור לטיסה
+const flightDate = new Date('November 23, 2025 09:40:00').getTime();
+
+function updateCountdown() {
+ const now = new Date().getTime();
+ const distance = flightDate - now;
+ 
+ if (distance < 0) {
+ document.getElementById('countdown-message').innerHTML = '🎉 אנחנו בפראג! נהנים מהטיול!';
+ document.getElementById('countdown').style.opacity = '0.5';
+ return;
+ }
+ 
+ const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+ const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+ const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+ const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+ 
+ document.getElementById('days').textContent = days;
+ document.getElementById('hours').textContent = hours;
+ document.getElementById('minutes').textContent = minutes;
+ document.getElementById('seconds').textContent = seconds;
+ 
+ // הודעות מיוחדות
+ if (days === 0) {
+ document.getElementById('countdown-message').innerHTML = '🎊 היום טסים! מתרגשים!';
+ } else if (days === 1) {
+ document.getElementById('countdown-message').innerHTML = '😍 מחר כבר טסים!';
+ } else if (days <= 7) {
+ document.getElementById('countdown-message').innerHTML = `💕 עוד ${days} ימים לטיול שלנו!`;
+ } else {
+ document.getElementById('countdown-message').innerHTML = 'עד שנוחתים בפראג!';
+ }
+}
+
+// עדכון כל שנייה
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// פונקציה להעתקת טקסט
+function copyToClipboard(text, button) {
+ navigator.clipboard.writeText(text).then(() => {
+ const originalText = button.innerHTML;
+ button.innerHTML = '✓ הועתק';
+ button.style.background = '#28a745';
+ 
+ setTimeout(() => {
+ button.innerHTML = originalText;
+ button.style.background = 'linear-gradient(135deg, #667eea, #764ba2)';
+ }, 2000);
+ }).catch(err => {
+ alert('לא הצלחנו להעתיק. נסה שוב.');
+ });
+}
+
+// פונקציה לפתיחת/סגירת תפריט המבורגר
+function toggleMenu() {
+ const dropdown = document.getElementById('dropdown');
+ const hamburger = document.getElementById('hamburger');
+ 
+ dropdown.classList.toggle('show');
+ hamburger.classList.toggle('active');
+}
+
+// סגירת התפריט בלחיצה מחוץ לאזור
+document.addEventListener('click', function(event) {
+ const menu = document.querySelector('.menu-container');
+ const dropdown = document.getElementById('dropdown');
+ const hamburger = document.getElementById('hamburger');
+ 
+ if (!menu.contains(event.target) && dropdown.classList.contains('show')) {
+ dropdown.classList.remove('show');
+ hamburger.classList.remove('active');
+ }
+});
+
+// פונקציה לצמצום/הרחבת הגלריה
+function toggleGallery() {
+ const content = document.getElementById('gallery-content');
+ const icon = document.getElementById('toggle-icon');
+ 
+ if (content.classList.contains('collapsed')) {
+ content.classList.remove('collapsed');
+ icon.textContent = '▼';
+ } else {
+ content.classList.add('collapsed');
+ icon.textContent = '▲';
+ }
+}
+
+// טיפול בהעלאת תמונות
+document.getElementById('photo-upload').addEventListener('change', function(e) {
+ const files = e.target.files;
+ const gallery = document.getElementById('gallery-container');
+ 
+ Array.from(files).forEach(file => {
+ if (file.type.startsWith('image/')) {
+ const reader = new FileReader();
+ 
+ reader.onload = function(event) {
+ addPhotoToGallery(event.target.result);
+ };
+ 
+ reader.readAsDataURL(file);
+ }
+ });
+});
+
+// הוספת תמונה לגלריה
+function addPhotoToGallery(imgSrc) {
+ const gallery = document.getElementById('gallery-container');
+ 
+ // יצירת אלמנט תמונה
+ const galleryItem = document.createElement('div');
+ galleryItem.className = 'gallery-item';
+ 
+ const img = document.createElement('img');
+ img.src = imgSrc;
+ 
+ const caption = document.createElement('div');
+ caption.className = 'gallery-caption';
+ caption.textContent = '💕';
+ 
+ // כפתור מחיקה
+ const deleteBtn = document.createElement('button');
+ deleteBtn.className = 'delete-photo';
+ deleteBtn.innerHTML = '×';
+ deleteBtn.onclick = function() {
+ if (confirm('למחוק תמונה זו?')) {
+ galleryItem.remove();
+ saveToLocalStorage();
+ }
+ };
+ 
+ galleryItem.appendChild(img);
+ galleryItem.appendChild(caption);
+ galleryItem.appendChild(deleteBtn);
+ gallery.appendChild(galleryItem);
+ 
+ // שמירה ב-localStorage
+ saveToLocalStorage();
+}
+
+// שמירת תמונות ב-localStorage
+function saveToLocalStorage() {
+ const gallery = document.getElementById('gallery-container');
+ const images = [];
+ 
+ gallery.querySelectorAll('.gallery-item img').forEach(img => {
+ images.push(img.src);
+ });
+ 
+ localStorage.setItem('praguePhotos', JSON.stringify(images));
+}
+
+// טעינת תמונות מ-localStorage בטעינת הדף
+window.addEventListener('DOMContentLoaded', function() {
+ const savedPhotos = localStorage.getItem('praguePhotos');
+ 
+ if (savedPhotos) {
+ const images = JSON.parse(savedPhotos);
+ 
+ images.forEach(imgSrc => {
+ addPhotoToGallery(imgSrc);
+ });
+ }
+ 
+ // טעינת לוח זמנים מותאם אישית
+ loadCustomSchedule();
+});
+
+// טעינת והצגת לוח הזמנים המותאם אישית
+function loadCustomSchedule() {
+ const saved = localStorage.getItem('pragueSchedule');
+ if (!saved) return; // אם אין לוח שמור, נשאר עם ברירת המחדל
+ 
+ const schedule = JSON.parse(saved);
+ 
+ // מיפוי מספרי ימים לכותרות
+ const dayTitles = {
+ 1: '✈️ יום ראשון: נחיתה, סיור ראשוני וקניות',
+ 2: '🌳 יום שני: טבע, שווקים וקניות',
+ 3: '🏛️ יום שלישי: תרבות ורובע יהודי',
+ 4: '🏰 יום רביעי: פראג האלטרנטיבית קניון חודוב',
+ 5: '✈️ יום חמישי: חזרה'
+ };
+ 
+ // מיפוי שמות לחיפוש בגוגל מפות
+ const locationMap = {
+ 'golem': 'Golem Kosher Restaurant Prague',
+ 'king-david': 'King David Kosher Restaurant Prague',
+ 'chabad': 'Chabad Prague',
+ 'chabad-grill': 'Chabad Grill Prague',
+ 'trdelnik': 'Trdelnik Coffee Prague',
+ 'old-town': 'Old Town Square Prague',
+ 'charles-bridge': 'Charles Bridge Prague',
+ 'castle': 'Prague Castle',
+ 'synagogue': 'Old New Synagogue Prague',
+ 'jewish-quarter': 'Jewish Quarter Prague',
+ 'petrin': 'Petrin Hill Prague',
+ 'vysehrad': 'Vyšehrad Prague',
+ 'hanavsky': 'Hanavsky Pavilion Prague',
+ 'john-lennon': 'John Lennon Wall Prague',
+ 'national-museum': 'National Museum Prague',
+ 'narrow-alley': 'Prague Narrowest Street Vinarna Certovka',
+ 'boat-rentals': 'Boat Rentals Vltava River Prague',
+ 'trojsky-zamek': 'Trojský zámek Prague',
+ 'lady-exile': 'Church of Our Lady Victorious Prague',
+ 'jan-sturza': 'Stursa Monument Prague',
+ 'novy-svet': 'Nový Svět Prague',
+ 'kralovska': 'Royal Garden Prague Castle',
+ 'primark': 'Primark Prague',
+ 'palladium': 'Palladium Prague',
+ 'chodov': 'Westfield Chodov Prague',
+ 'my-narodni': 'My Národní Prague',
+ 'havelske': 'Havelské tržiště Prague',
+ 'jiriho': 'Jiřího z Poděbrad Market Prague',
+ 'tylovo': 'Tylovo náměstí Market Prague',
+ 'graborovka': 'Havlíčkovy sady Prague'
+ };
+ 
+ // עדכון כל יום
+ Object.keys(schedule).forEach(dayNum => {
+ if (schedule[dayNum].length === 0) return;
+ 
+ // מציאת האלמנט של היום
+ const dayElements = document.querySelectorAll('.day');
+ let targetDay = null;
+ 
+ dayElements.forEach(dayEl => {
+ const h2 = dayEl.querySelector('h2');
+ if (h2 && h2.textContent.includes(dayTitles[dayNum].substring(0, 15))) {
+ targetDay = dayEl;
+ }
+ });
+ 
+ if (!targetDay) return;
+ 
+ // הוספת הפריטים המותאמים אישית לפי סדר השעות
+ schedule[dayNum].forEach(item => {
+ const newP = document.createElement('p');
+ 
+ const locationKey = locationMap[item.attraction.id] || item.attraction.name;
+ const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(locationKey)}`;
+ const moovitUrl = `https://moovit.com/prague-2657/poi/en?q=${encodeURIComponent(locationKey)}`;
+ 
+ newP.innerHTML = `
+ <span class="time">${item.time}</span> ${item.attraction.icon} ${item.attraction.name}
+ <div class="buttons">
+ <a href="${googleMapsUrl}" target="_blank"><button>📍 גוגל מפות</button></a>
+ <a href="${moovitUrl}" target="_blank"><button>🚇 Moovit</button></a>
+ </div>
+ `;
+ newP.style.background = '#e8f8f5';
+ newP.style.borderRight = '3px solid #28a745';
+ newP.dataset.time = item.time; // שמירת השעה כ-data attribute
+ 
+ // מציאת המיקום הנכון להכנסה לפי השעה
+ const existingItems = targetDay.querySelectorAll('p');
+ let inserted = false;
+ 
+ existingItems.forEach(existingP => {
+ if (inserted) return;
+ 
+ // חילוץ השעה מהפריט הקיים
+ const timeSpan = existingP.querySelector('.time');
+ if (timeSpan) {
+ const existingTime = timeSpan.textContent.trim();
+ 
+ // השוואת שעות
+ if (item.time < existingTime) {
+ targetDay.insertBefore(newP, existingP);
+ inserted = true;
+ }
+ }
+ });
+ 
+ // אם לא הוכנס (כלומר השעה היא אחרי כל השאר), הוסף בסוף
+ if (!inserted) {
+ targetDay.appendChild(newP);
+ }
+ });
+ });
+}
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
